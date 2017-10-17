@@ -70,7 +70,7 @@ public class RpcServer implements ApplicationContextAware, InitializingBean {
                 return;
             int port = Integer.parseInt(ary[1]);
             ChannelFuture future = bootstrap.bind(ary[0], port).sync();
-            LOGGER.debug("server started on port {}", port);
+            LOGGER.info("server started on port {}", port);
             // register our services
             if(serviceRegistry != null)
                 serviceRegistry.register(serverAddress);

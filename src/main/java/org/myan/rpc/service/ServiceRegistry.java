@@ -30,7 +30,7 @@ public class ServiceRegistry extends AbstractService {
         try {
             byte[] bytes = data.getBytes();
             String path = zk.create(Constants.ZK_DATA_PATH, bytes, ZooDefs.Ids.OPEN_ACL_UNSAFE, CreateMode.EPHEMERAL_SEQUENTIAL);
-            LOGGER.debug("create zookeeper node ({} => {})", path, data);
+            LOGGER.info("create zookeeper node ({} => {})", path, data);
         } catch (KeeperException | InterruptedException e) {
             LOGGER.error("", e);
         }
