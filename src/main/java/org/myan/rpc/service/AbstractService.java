@@ -14,8 +14,8 @@ import java.util.concurrent.CountDownLatch;
  * Intellij IDEA
  */
 public abstract class AbstractService {
-    protected static final Logger LOGGER = LoggerFactory.getLogger("org.myan.rpc.service");
-    protected String registryAddress;
+    static final Logger LOGGER = LoggerFactory.getLogger("org.myan.rpc.service");
+    String registryAddress;
     private CountDownLatch latch = new CountDownLatch(1);
 
     protected ZooKeeper connectZooKeeper() {

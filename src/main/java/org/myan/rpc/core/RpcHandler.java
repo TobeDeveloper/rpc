@@ -1,7 +1,6 @@
 package org.myan.rpc.core;
 
 import io.netty.channel.ChannelFutureListener;
-import io.netty.channel.ChannelHandler;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.SimpleChannelInboundHandler;
 import org.slf4j.Logger;
@@ -10,16 +9,17 @@ import org.springframework.cglib.reflect.FastClass;
 import org.springframework.cglib.reflect.FastMethod;
 
 import java.lang.reflect.InvocationTargetException;
-import java.util.Map; /**
+import java.util.Map;
+/**
  * Created by myan on 2017/10/17.
  * Intellij IDEA
  */
 public class RpcHandler extends SimpleChannelInboundHandler<RpcRequest> {
     private static final Logger LOGGER = LoggerFactory.getLogger(RpcHandler.class);
-    private Map<String, Object> serviceHandler;
+    private Map<String, Object> services;
 
-    public RpcHandler(Map<String, Object> serviceHandler) {
-        this.serviceHandler = serviceHandler;
+    public RpcHandler(Map<String, Object> services) {
+        this.services = services;
     }
 
     @Override
@@ -37,7 +37,7 @@ public class RpcHandler extends SimpleChannelInboundHandler<RpcRequest> {
     }
 
     private Object handle(RpcRequest request) throws InvocationTargetException {
-        Object serviceBean = serviceHandler.get(request.getClassName());
+        Object serviceBean = services.get(request.getClassName());
 
         Class<?> serviceClass = serviceBean.getClass();
         String methodName = request.getMethodName();

@@ -32,7 +32,7 @@ public class RpcServer implements ApplicationContextAware, InitializingBean {
 
     private String serverAddress;
     private ServiceRegistry serviceRegistry;
-    private Map<String, Object> serviceHandler = new HashMap<>();
+    private Map<String, Object> services = new HashMap<>();
 
     public RpcServer(String serverAddress) {
         this.serverAddress = serverAddress;
@@ -58,7 +58,7 @@ public class RpcServer implements ApplicationContextAware, InitializingBean {
                             channel.pipeline()
                                     .addLast(new RpcDecoder(RpcRequest.class)) // 将 RPC 请求进行解码（为了处理请求）
                                     .addLast(new RpcEncoder(RpcResponse.class)) // 将 RPC 响应进行编码（为了返回响应）
-                                    .addLast(new RpcHandler(serviceHandler));
+                                    .addLast(new RpcHandler(services));
                         }
                     })
                     .option(ChannelOption.SO_BACKLOG, 128)
@@ -88,7 +88,7 @@ public class RpcServer implements ApplicationContextAware, InitializingBean {
         if (MapUtils.isNotEmpty(serviceBeanMap)) {
             for (Object bean : serviceBeanMap.values()) {
                 String serviceClass = bean.getClass().getAnnotation(RpcService.class).value().getName();
-                serviceHandler.put(serviceClass, bean);
+                services.put(serviceClass, bean);
             }
         }
     }
